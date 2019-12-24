@@ -48,43 +48,43 @@ states.doDraw = () => {
 	}}
 states.doMouseClicked = () => {
 	for (let action of mouse_clicked_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 states.doMousePressed = () => {
 	for (let action of mouse_pressed_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 states.doMouseReleased = () => {
 	for (let action of mouse_released_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 states.doMouseDragged = () => {
 	for (let action of mouse_dragged_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 states.doMouseMoved = () => {
 	for (let action of mouse_moved_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 states.doDoubleClicked = () => {
 	for (let action of double_clicked_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 states.doMouseWheel = () => {
 	for (let action of mouse_wheel_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 states.doKeyPressed = () => {
 	for (let action of key_pressed_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 states.doKeyTyped = () => {
 	for (let action of key_typed_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 states.doKeyReleased = () => {
 	for (let action of key_released_actions) {
-		if (state == action.state) action.action();
+		if (state == action.state || action.state == 'all') action.action();
 	}}
 
 draw = states.doDraw;
