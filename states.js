@@ -17,8 +17,8 @@ states.states = [];
 Object.prototype.__defineGetter__('state', () =>_state);
 Object.prototype.__defineSetter__('state', n  => {
 	for (let s of states.states) {
-		if (s.name == state) s.end();
-		if (s.name == n) s.start();
+		if (s.name == _state && s.end) s.end();
+		if (s.name == n && s.start) s.start();
 		_state = n
 	}
 })
@@ -31,13 +31,25 @@ const add_action = (state, list, action) => {
 }
 
 const new_state = (name, start, draw, end) => {
+	if (typeof name == 'object') {
+		if (!name.name || name.draw) {
+			console.error('States must have a name and a draw function.');
+		}
+		states.states.push(name);
+		return;
+	}
+
+	if (!name || !draw) {
+		console.error('States must have a name and a draw function.')
+	}
+
 	states.states.push({
 		name: name,
 		start: start,
 		draw: draw,
 		end: end
-	})
-}
+	});
+};
 
 states.doSetup = () => {for (let action of setup_actions) action.action();}
 states.doPreload = () => {for (let action of preload_actions) action.action();}
@@ -46,58 +58,23 @@ states.doDraw = () => {
 	for (let s of states.states) {
 		if (state == s.name) s.draw();
 	}}
-states.doMouseClicked = () => {
-	for (let action of mouse_clicked_actions) {
+states.doAction = (list) => {
+	for (let action of list) {
 		if (state == action.state || action.state == 'all') action.action();
-	}}
-states.doMousePressed = () => {
-	for (let action of mouse_pressed_actions) {
-		if (state == action.state || action.state == 'all') action.action();
-	}}
-states.doMouseReleased = () => {
-	for (let action of mouse_released_actions) {
-		if (state == action.state || action.state == 'all') action.action();
-	}}
-states.doMouseDragged = () => {
-	for (let action of mouse_dragged_actions) {
-		if (state == action.state || action.state == 'all') action.action();
-	}}
-states.doMouseMoved = () => {
-	for (let action of mouse_moved_actions) {
-		if (state == action.state || action.state == 'all') action.action();
-	}}
-states.doDoubleClicked = () => {
-	for (let action of double_clicked_actions) {
-		if (state == action.state || action.state == 'all') action.action();
-	}}
-states.doMouseWheel = () => {
-	for (let action of mouse_wheel_actions) {
-		if (state == action.state || action.state == 'all') action.action();
-	}}
-states.doKeyPressed = () => {
-	for (let action of key_pressed_actions) {
-		if (state == action.state || action.state == 'all') action.action();
-	}}
-states.doKeyTyped = () => {
-	for (let action of key_typed_actions) {
-		if (state == action.state || action.state == 'all') action.action();
-	}}
-states.doKeyReleased = () => {
-	for (let action of key_released_actions) {
-		if (state == action.state || action.state == 'all') action.action();
-	}}
+	}
+}
 
 draw = states.doDraw;
 setup = states.doSetup;
 preload = states.doPreload;
 
-mouseClicked = states.doMouseClicked;
-mouseReleased = states.doMouseReleased;
-mousePressed = states.doMousePressed;
-mouseDragged = states.doMouseDragged;
-mouseWheel = states.doMouseWheel;
-doubleClicked = states.doDoubleClicked;
-keyPressed = states.doKeyPressed;
-keyTyped = states.doKeyTyped;
-keyReleased = states.doKeyReleased;
-mouseMoved = states.doMouseMoved;
+mouseClicked 	= () => states.doAction(mouse_clicked_actions);
+mouseReleased 	= () => states.doAction(mouse_released_actions);
+mousePressed 	= () => states.doAction(mouse_pressed_actions);
+mouseDragged 	= () => states.doAction(mouse_dragged_actions);
+mouseMoved 		= () => states.doAction(mouse_moved_actions);;
+mouseWheel 		= () => states.doAction(mouse_wheel_actions);
+doubleClicked 	= () => states.doAction(double_clicked_actions);
+keyPressed 		= () => states.doAction(key_pressed_actions);;
+keyTyped 		= () => states.doAction(key_typed_actions);;
+keyReleased 	= () => states.doAction(key_released_actions);;
