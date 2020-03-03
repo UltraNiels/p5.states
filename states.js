@@ -11,7 +11,7 @@ const key_released_actions = [];
 const setup_actions = [];
 const preload_actions = [];
 const states = {};
-let _state;
+let _state, _mainstate;
 
 states.states = [];
 Object.prototype.__defineGetter__('state', () =>_state);
@@ -29,6 +29,7 @@ const add_action = (state, list, action) => {
 		action: action,
 	})
 }
+
 
 const new_state = (name, start, draw, end) => {
 	if (typeof name == 'object') {
@@ -50,6 +51,8 @@ const new_state = (name, start, draw, end) => {
 		end: end
 	});
 };
+
+const mainState = (s) => s? _mainstate = s : _mainstate;
 
 states.doSetup = () => {for (let action of setup_actions) action.action();}
 states.doPreload = () => {for (let action of preload_actions) action.action();}
