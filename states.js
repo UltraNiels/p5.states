@@ -58,9 +58,12 @@ states.doSetup = () => {for (let action of setup_actions) action.action();}
 states.doPreload = () => {for (let action of preload_actions) action.action();}
 
 states.doDraw = () => {
+	if (!state) state = _mainstate;
 	for (let s of states.states) {
 		if (state == s.name) s.draw();
-	}}
+		return;
+	}
+}
 states.doAction = (list) => {
 	for (let action of list) {
 		if (state == action.state || action.state == 'all') action.action();
